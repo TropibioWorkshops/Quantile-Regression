@@ -1,2 +1,2 @@
 # QR_course
-Quantile Regression course with R
+Brief introduction to Quantile Regression with R
