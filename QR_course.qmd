@@ -1,0 +1,131 @@
+---
+title: "`Introduction to Quantile Regression in R`"
+subtitle: "`Fernanda Alves Martins`  \n`Javier Martinez Arribas`"
+author: "```r format(Sys.time(), '%d %B, %Y')```"
+title-slide-attributes:
+    data-background-image: "Tropibio4.jpg"
+    data-background-size: cover
+    data-background-opacity: "0.4"
+format:
+  revealjs:
+    incremental: true
+    slide-number: true
+    format:
+      theme: dark
+      height: 900
+      width: 1600
+    chalkboard: 
+      buttons: true
+    preview-links: auto
+    logo: "Tropibio2.jpg"
+    css: styles.css
+    footer: <https://cibio-tropibio.pt/en/>
+---
+
+## 
+
+## Introduction
+
+When making predictions for an outcome, it can be helpful to determine the level of confidence or a range of values surrounding the expected outcome where the actual value may fall.
+
+For instance, when predicting a stock price, it's not just the average outcome that matters, but also the best and worst-case scenarios that are essential in minimizing risks, such as avoiding being late or losing money.
+
+Although most Machine Learning techniques don't offer a straightforward approach to achieving this, in this introduction course, we'll delve into the use of Quantile Regression to achieve this.
+
+This approach enables us to gain crucial statistical insights into our data, specifically the quantiles.
+
+## Introduction
+
+Quantile regression was introduced by Koenker and Bassett (1978) and fits specified percentiles of the response, such as the 90th percentile, and can potentially describe the entire conditional distribution of the response.
+
+Quantile regression does not assume a particular parametric distribution for the response, nor does it assume a constant variance for the response, unlike least squares regression.
+
+The quantile level is the probability (or the proportion of the population) that is associated with a quantile.
+
+By fitting a series of regression models for a grid of values of in the interval (0,1), you can describe the entire conditional distribution of the response.
+
+## Benefits of Quantile Regression
+
+::: incremental
+-   **Handles skewed distributions**: Traditional regression methods assume that the data is normally distributed. Quantile regression, on the other hand, can handle skewed distributions and provide more accurate predictions.
+
+-   **Robustness to outliers**: Quantile regression is also robust to outliers since it minimizes the sum of absolute deviations instead of the sum of squared deviations.
+
+-   **Flexibility**: Quantile regression allows modeling different quantiles of the response variable, which can be useful for different applications. For example, quantile regression canpredict the lowest or highest values of the response variable.
+:::
+
+## Benefits of Quantile Regression
+
+::: incremental
+-   **Interpretability**: Quantile regression provides estimates of the conditional quantiles of the response variable, which can be interpreted as the effect of each predictor on different parts of the distribution of the response variable.
+
+-   **Useful for risk management**: In finance and other fields where risk management is critical, quantile regression can be used to model the lower quantiles of the response variable, which can help in estimating the risk of negative events.
+:::
+
+## Comparison with Linear Regression
+
+![](Comparation.png){width="900" height="600" fig-align="center"}
+
+## Examples: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+library(gamlss.data)
+library(MASS)
+library(tidyverse)
+library(quantreg)
+library(ggplot2)
+
+data("dbbmi")
+
+rq.bmi<- rq(bmi ~ age, tau = c(0.1, 0.25, 0.5, 0.75, 0.9), data = dbbmi)
+rq.bmi
+```
+
+## Evaluation: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+plot(rq.bmi)
+
+```
+
+## Evaluation: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+
+qs <- c(0.025,0.25,0.50,0.75,0.975)
+
+ggplot(dbbmi, aes(age, bmi)) +
+  geom_point(size=1, colour="grey70") +
+  geom_quantile(quantiles=qs, formula=y ~ poly(x, 3), colour="red") +
+  geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
+              se=FALSE, linetype="11") +
+  theme_classic()
+```
+
+## Example: Birth weight vs. Mother weight
+
+```{r echo=T, eval=T}
+data(engel)
+
+qs <- c(0.025,0.25,0.50,0.75,0.975)
+
+ggplot(birthwt, aes(lwt, bwt)) +
+  geom_point(size=1, colour="grey70") +
+  geom_quantile(quantiles=qs, formula=y ~ poly(x, 3), colour="red") +
+  geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
+              se=FALSE, linetype="11") +
+  theme_classic()
+
+```
+
+## Example: Foodexp. vs. Income
+
+```{r echo=T, eval=T}
+data(engel)
+qs <- c(0.025,0.25,0.50,0.75,0.975)
+ggplot(engel, aes(income, foodexp)) +
+  geom_point(size=1, colour="grey70") +
+  geom_quantile(quantiles=qs, formula=y ~ poly(x, 3), colour="red") +
+  geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
+              se=FALSE, linetype="11")
+```
