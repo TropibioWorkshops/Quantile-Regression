@@ -76,9 +76,35 @@ library(quantreg)
 library(ggplot2)
 
 data("dbbmi")
+ggplot(dbbmi, aes(x=bmi)) +
+  geom_histogram(fill="blue", position="dodge")+
+  theme(legend.position="top")
+```
+
+## Examples: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
 
 rq.bmi<- rq(bmi ~ age, tau = c(0.1, 0.25, 0.5, 0.75, 0.9), data = dbbmi)
 rq.bmi
+```
+
+## Examples: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+summary(rq.bmi25<- rq(bmi ~ age, tau = 0.25, data = dbbmi))
+```
+
+## Examples: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+summary(rq.bmi75<- rq(bmi ~ age, tau = 0.75, data = dbbmi))
+```
+
+## Examples: Age vs. Body Mass Index
+
+```{r echo=T, eval=T}
+anova(rq.bmi25, rq.bmi75)
 ```
 
 ## Evaluation: Age vs. Body Mass Index
@@ -116,11 +142,9 @@ ggplot(birthwt, aes(lwt, bwt, colour=smoke)) +
 
 ```
 
-
 ## Example: Foodexp. vs. Income
 
 Engel's Law states that as a household's (or a nation's) income rises, the percentage of income spent on food decreases and the percentage spent on other goods and services increases.
-
 
 ## Example: Foodexp. vs. Income
 
@@ -133,6 +157,3 @@ ggplot(engel, aes(income, foodexp)) +
   geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
               se=FALSE, linetype="11")
 ```
-
-
-

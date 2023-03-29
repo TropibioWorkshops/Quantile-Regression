@@ -458,9 +458,17 @@
 <span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="fu">data</span>(<span class="st">"dbbmi"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>rq.bmi<span class="ot">&lt;-</span> <span class="fu">rq</span>(bmi <span class="sc">~</span> age, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>), <span class="at">data =</span> dbbmi)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>rq.bmi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">ggplot</span>(dbbmi, <span class="fu">aes</span>(<span class="at">x=</span>bmi)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">"blue"</span>, <span class="at">position=</span><span class="st">"dodge"</span>)<span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="examples-age-vs.-body-mass-index-1" class="slide level2">
+<h2>Examples: Age vs.&nbsp;Body Mass Index</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rq.bmi<span class="ot">&lt;-</span> <span class="fu">rq</span>(bmi <span class="sc">~</span> age, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>), <span class="at">data =</span> dbbmi)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>rq.bmi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
 rq(formula = bmi ~ age, tau = c(0.1, 0.25, 0.5, 0.75, 0.9), data = dbbmi)
@@ -474,41 +482,92 @@ Degrees of freedom: 7294 total; 7292 residual</code></pre>
 </div>
 </div>
 </section>
+<section id="examples-age-vs.-body-mass-index-2" class="slide level2">
+<h2>Examples: Age vs.&nbsp;Body Mass Index</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">summary</span>(rq.bmi25<span class="ot">&lt;-</span> <span class="fu">rq</span>(bmi <span class="sc">~</span> age, <span class="at">tau =</span> <span class="fl">0.25</span>, <span class="at">data =</span> dbbmi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call: rq(formula = bmi ~ age, tau = 0.25, data = dbbmi)
+
+tau: [1] 0.25
+
+Coefficients:
+            Value     Std. Error t value   Pr(&gt;|t|) 
+(Intercept)  14.51896   0.04507  322.14690   0.00000
+age           0.20478   0.00453   45.21552   0.00000</code></pre>
+</div>
+</div>
+</section>
+<section id="examples-age-vs.-body-mass-index-3" class="slide level2">
+<h2>Examples: Age vs.&nbsp;Body Mass Index</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">summary</span>(rq.bmi75<span class="ot">&lt;-</span> <span class="fu">rq</span>(bmi <span class="sc">~</span> age, <span class="at">tau =</span> <span class="fl">0.75</span>, <span class="at">data =</span> dbbmi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call: rq(formula = bmi ~ age, tau = 0.75, data = dbbmi)
+
+tau: [1] 0.75
+
+Coefficients:
+            Value     Std. Error t value   Pr(&gt;|t|) 
+(Intercept)  16.83580   0.05303  317.48151   0.00000
+age           0.27356   0.00641   42.65068   0.00000</code></pre>
+</div>
+</div>
+</section>
+<section id="examples-age-vs.-body-mass-index-4" class="slide level2">
+<h2>Examples: Age vs.&nbsp;Body Mass Index</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">anova</span>(rq.bmi25, rq.bmi75)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Quantile Regression Analysis of Deviance Table
+
+Model: bmi ~ age
+Joint Test of Equality of Slopes: tau in {  0.25 0.75  }
+
+  Df Resid Df F value    Pr(&gt;F)    
+1  1    14587  111.37 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
 <section id="evaluation-age-vs.-body-mass-index" class="slide level2">
 <h2>Evaluation: Age vs.&nbsp;Body Mass Index</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">plot</span>(rq.bmi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">plot</span>(rq.bmi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
 <section id="evaluation-age-vs.-body-mass-index-1" class="slide level2">
 <h2>Evaluation: Age vs.&nbsp;Body Mass Index</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(dbbmi, <span class="fu">aes</span>(age, bmi)) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
-<span id="cb4-7"><a href="#cb4-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="fu">ggplot</span>(dbbmi, <span class="fu">aes</span>(age, bmi)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
+<span id="cb11-7"><a href="#cb11-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
 <section id="example-birth-weight-vs.-mother-weight" class="slide level2">
 <h2>Example: Birth weight vs.&nbsp;Mother weight</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">ggplot</span>(birthwt, <span class="fu">aes</span>(lwt, bwt, <span class="at">colour=</span>smoke)) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
-<span id="cb5-7"><a href="#cb5-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="fu">ggplot</span>(birthwt, <span class="fu">aes</span>(lwt, bwt, <span class="at">colour=</span>smoke)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
+<span id="cb12-7"><a href="#cb12-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
+<img data-src="QR_course_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
 <section id="example-foodexp.-vs.-income" class="slide level2">
 <h2>Example: Foodexp. vs.&nbsp;Income</h2>
 <p>Engel’s Law states that as a household’s (or a nation’s) income rises, the percentage of income spent on food decreases and the percentage spent on other goods and services increases.</p>
@@ -516,15 +575,15 @@ Degrees of freedom: 7294 total; 7292 residual</code></pre>
 <section id="example-foodexp.-vs.-income-1" class="slide level2">
 <h2>Example: Foodexp. vs.&nbsp;Income</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">data</span>(engel)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">ggplot</span>(engel, <span class="fu">aes</span>(income, foodexp)) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
-<span id="cb6-7"><a href="#cb6-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">data</span>(engel)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="fu">ggplot</span>(engel, <span class="fu">aes</span>(income, foodexp)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
+<span id="cb13-7"><a href="#cb13-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img data-src="QR_course_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
+<p><img data-src="QR_course_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
 </div>
 </div>
 <p><img src="Tropibio2.jpg" class="slide-logo"></p>
