@@ -51,7 +51,7 @@ By fitting a series of regression models for a grid of values of in the interval
 
 -   **Robustness to outliers**: Quantile regression is also robust to outliers since it minimizes the sum of absolute deviations instead of the sum of squared deviations.
 
--   **Flexibility**: Quantile regression allows modeling different quantiles of the response variable, which can be useful for different applications. For example, quantile regression canpredict the lowest or highest values of the response variable.
+-   **Flexibility**: Quantile regression allows modeling different quantiles of the response variable, which can be useful for different applications. For example, quantile regression can predict the lowest or highest values of the response variable.
 :::
 
 ## Benefits of Quantile Regression
@@ -64,7 +64,7 @@ By fitting a series of regression models for a grid of values of in the interval
 
 ## Comparison with Linear Regression
 
-![](Comparation.png){width="900" height="600" fig-align="center"}
+![](Comparation.png){width="1100" height="500" fig-align="center"}
 
 ## Examples: Age vs. Body Mass Index
 
@@ -105,11 +105,9 @@ ggplot(dbbmi, aes(age, bmi)) +
 ## Example: Birth weight vs. Mother weight
 
 ```{r echo=T, eval=T}
-data(engel)
-
 qs <- c(0.025,0.25,0.50,0.75,0.975)
 
-ggplot(birthwt, aes(lwt, bwt)) +
+ggplot(birthwt, aes(lwt, bwt, colour=smoke)) +
   geom_point(size=1, colour="grey70") +
   geom_quantile(quantiles=qs, formula=y ~ poly(x, 3), colour="red") +
   geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
@@ -117,6 +115,12 @@ ggplot(birthwt, aes(lwt, bwt)) +
   theme_classic()
 
 ```
+
+
+## Example: Foodexp. vs. Income
+
+Engel's Law states that as a household's (or a nation's) income rises, the percentage of income spent on food decreases and the percentage spent on other goods and services increases.
+
 
 ## Example: Foodexp. vs. Income
 
@@ -129,3 +133,6 @@ ggplot(engel, aes(income, foodexp)) +
   geom_smooth(method='lm', formula=y ~ poly(x,3), colour="blue", 
               se=FALSE, linetype="11")
 ```
+
+
+

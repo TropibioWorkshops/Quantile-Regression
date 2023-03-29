@@ -9,7 +9,7 @@
 <link href="QR_course_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.2.335">
 
-  <meta name="author" content="28 March, 2023">
+  <meta name="author" content="29 March, 2023">
   <title>Introduction to Quantile Regression in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -398,7 +398,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-<code>28 March, 2023</code> 
+<code>29 March, 2023</code> 
 </div>
 </div>
 </div>
@@ -427,7 +427,7 @@
 <ul>
 <li class="fragment"><p><strong>Handles skewed distributions</strong>: Traditional regression methods assume that the data is normally distributed. Quantile regression, on the other hand, can handle skewed distributions and provide more accurate predictions.</p></li>
 <li class="fragment"><p><strong>Robustness to outliers</strong>: Quantile regression is also robust to outliers since it minimizes the sum of absolute deviations instead of the sum of squared deviations.</p></li>
-<li class="fragment"><p><strong>Flexibility</strong>: Quantile regression allows modeling different quantiles of the response variable, which can be useful for different applications. For example, quantile regression canpredict the lowest or highest values of the response variable.</p></li>
+<li class="fragment"><p><strong>Flexibility</strong>: Quantile regression allows modeling different quantiles of the response variable, which can be useful for different applications. For example, quantile regression can predict the lowest or highest values of the response variable.</p></li>
 </ul>
 </div>
 </section>
@@ -444,7 +444,7 @@
 <h2>Comparison with Linear Regression</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Comparation.png" width="900" height="600"></p>
+<p><img data-src="Comparation.png" width="1100" height="500"></p>
 </figure>
 </div>
 </section>
@@ -498,20 +498,22 @@ Degrees of freedom: 7294 total; 7292 residual</code></pre>
 <section id="example-birth-weight-vs.-mother-weight" class="slide level2">
 <h2>Example: Birth weight vs.&nbsp;Mother weight</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">data</span>(engel)</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>qs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.25</span>,<span class="fl">0.50</span>,<span class="fl">0.75</span>,<span class="fl">0.975</span>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">ggplot</span>(birthwt, <span class="fu">aes</span>(lwt, bwt)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
-<span id="cb5-9"><a href="#cb5-9"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">ggplot</span>(birthwt, <span class="fu">aes</span>(lwt, bwt, <span class="at">colour=</span>smoke)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">geom_quantile</span>(<span class="at">quantiles=</span>qs, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>, <span class="at">formula=</span>y <span class="sc">~</span> <span class="fu">poly</span>(x,<span class="dv">3</span>), <span class="at">colour=</span><span class="st">"blue"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, <span class="at">linetype=</span><span class="st">"11"</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="QR_course_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section id="example-foodexp.-vs.-income" class="slide level2">
+<h2>Example: Foodexp. vs.&nbsp;Income</h2>
+<p>Engel’s Law states that as a household’s (or a nation’s) income rises, the percentage of income spent on food decreases and the percentage spent on other goods and services increases.</p>
+</section>
+<section id="example-foodexp.-vs.-income-1" class="slide level2">
 <h2>Example: Foodexp. vs.&nbsp;Income</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">data</span>(engel)</span>
